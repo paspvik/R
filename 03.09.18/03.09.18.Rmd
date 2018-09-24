@@ -1,0 +1,28 @@
+---
+title: "forelesning 3.sep"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r message = FALSE}
+library(ggplot2)
+library(knitr)
+```
+
+
+##Plot of stays in Norway
+
+```{r grafinit, echo = FALSE, message= FALSE, fig.width= 10, fig.height = 10}
+Norge_stays <- read.csv("~/Desktop/Rforelesning/03.09.18/Norge_stays.csv")
+as.Date(Norge_stays$month)
+ggplot(Norge_stays, aes(x= month , y = Norge)) + geom_boxplot()
+```
+
+```{r}
+kable(Norge_stays)
+```
+

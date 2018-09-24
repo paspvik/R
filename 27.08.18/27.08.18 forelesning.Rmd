@@ -1,0 +1,89 @@
+---
+title: "27.08.18 Forelesning"
+output: html_document 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#Importere pakke library(knitr)
+```
+
+# Hva du vil
+
+mer tekst
+
+## Underseksjon
+
+Mer tekst
+
+**Dette er fet skrift **
+*Dette er kursiv*
+
+**_Dette er fet og krusiv _**
+
+__Dette er fet skrift __
+
+_dette er kursiv _
+
+## Table
+
+Header 1 | Header 2
+-------|------------
+
+Content 1 | Content 2
+
+<!-- Cmd+shift+c 4 comments -->
+
+<h1 style="color:blue;">This is a Blue Heading</h1>
+
+
+
+##Min f??rste R kode
+
+<!-- cmd+alt+i for ?? f?? opp codeblock -->
+
+```{r definer variabler, echo = TRUE, fig.widt = 5}
+x <- 1
+y <-5
+
+y-x
+plot(x,y)
+```
+
+<!-- Hurtigtast for knit cmd+shift+k -->
+
+<script>
+alert("Javascript boi!");
+</script> 
+
+
+<!-- Inlince code  shift + ?? -->
+`r x `
+
+
+
+```{r robot}
+
+fylke <- "Troms"
+prosent_endring <- 100*0.5
+endring_string <- ifelse(prosent_endring > 0, "increased", "decreased")
+```
+
+The total number of overnight stays in `r fylke` `r endring_string ` by `r paste0 (prosent_endring,"%")`
+
+
+
+```{r}
+cars #Test data
+knitr::kable(cars)  #Lage table #Henter kable fra pakke knitr
+m1 <- lm(speed-dist, data = cars)
+m1
+class(m1)
+knitr::kable(summary(m1))
+
+
+
+
+
+
