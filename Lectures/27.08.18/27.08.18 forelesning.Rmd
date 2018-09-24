@@ -35,7 +35,6 @@ Content 1 | Content 2
 
 <!-- Cmd+shift+c 4 comments -->
 
-<h1 style="color:blue;">This is a Blue Heading</h1>
 
 
 
@@ -53,9 +52,6 @@ plot(x,y)
 
 <!-- Hurtigtast for knit cmd+shift+k -->
 
-<script>
-alert("Javascript boi!");
-</script> 
 
 
 <!-- Inlince code  shift + ?? -->
