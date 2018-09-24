@@ -1,0 +1,56 @@
+---
+title: "Preben 17.09.18"
+output: html_document
+---
+
+```{r setup, include=FALSE, message=FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r init, message=FALSE, echo = FALSE,include= FALSE}
+
+library(png)
+library(readr)
+library(ggplot2)
+library(dplyr)
+
+equinor <- read_csv("https://www.netfonds.no/quotes/paperhistory.php?paper=EQNR.OSE&csv_format=csv", 
+    col_types = cols(quote_date = col_datetime(format = "%Y%m%d")))
+
+hydro <- read_csv("https://www.netfonds.no/quotes/paperhistory.php?paper=NHY.OSE&csv_format=csv", 
+    col_types = cols(quote_date = col_datetime(format = "%Y%m%d")))
+
+combined <- merge(equinor,hydro, by="quote_date")
+
+
+
+
+
+```
+
+```{r graphs, echo = FALSE } 
+
+
+
+
+
+ggplot() + 
+  geom_line(data = combined, aes(x = quote_date, y = close.x), color = "purple") + 
+  geom_line(data = combined, aes(x = quote_date, y = close.y), color = "green")  + 
+  labs(
+        title = "Aesthetically pleasing representation of closing positions for Equinor & Hydro",
+        x = "Year",
+        y = "Close") +
+  
+  theme_dark() 
+  
+  
+
+
+
+```
+
+
+
+
+  
