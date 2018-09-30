@@ -1,0 +1,101 @@
+---
+title: "Assignment 3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r init, message = FALSE, echo = FALSE }
+library(tidyverse)
+
+X95274 <- read_delim("http://data.ssb.no/api/v0/dataset/95274.csv?lang=no", 
+     ";", escape_double = FALSE, locale = locale(encoding = "ISO-8859-1"), 
+      na = "0", trim_ws = TRUE)
+
+X95276 <- read_delim("http://data.ssb.no/api/v0/dataset/95276.csv?lang=no", 
+    ";", escape_double = FALSE, locale = locale(encoding = "ISO-8859-1"), 
+    na = "0", trim_ws = TRUE)
+
+```
+
+
+
+```{r cleaning, message = FALSE, echo = FALSE}
+
+#Combining dataset and removing NA's
+combined <- rbind(X95274,X95276)
+combined <- combined[with(combined, order(region)),   ]
+combined <- na.omit(combined)
+
+#Changing colname
+colnames(combined)[4] <- "verdi"
+
+#Splitting regions w/ code two to separate entities & and year and month to separate entities
+combined <- separate(combined, region, c("regionskode", "region"), sep = " ")
+combined <- separate(combined, måned, c("år", "måned"), sep = "M")
+
+#Changing wrongly named variables after spltting col's
+if(combined$region == "Hele") {
+  combined$region = "Nasjonalt"
+}
+
+
+
+
+```
+
+
+
+```{r correlation}
+
+
+#Filtering for testing
+kapasitet_rom <- combined %>%
+  filter(statistikkvariabel == "Kapasitetsutnytting av rom (prosent)") %>%
+  filter(år >= 1992)
+
+kapasitet_senger <- combined %>%
+  filter(statistikkvariabel == "Kapasitetsutnytting av senger (prosent)") %>%
+  filter(år >= 1992)
+  
+pris_rom <- combined %>%
+  filter(statistikkvariabel == "Pris per rom (kr)")
+
+
+#Testing correlation between capacity and price 
+cor.test(kapasitet_senger$verdi, pris_rom$verdi, 
+                    method = "pearson")
+
+cor.test(kapasitet_rom$verdi, pris_rom$verdi, 
+                    method = "pearson")
+
+
+#The correlation between capacity and price is weak
+
+```
+
+
+
+
+
+
+```{r averages}
+#Not working mean calculation
+
+
+
+national_mean <- combined %>%
+  filter(regionskode == 0)
+  mean(national$verdi)
+  
+  
+  
+
+
+```
+
+
