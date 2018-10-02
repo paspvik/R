@@ -1,0 +1,78 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+```{r init, message=FALSE, echo = FALSE }
+
+library("rvest")
+library("tidyverse")
+
+
+```
+
+```{r scraping, message=FALSE, echo = FALSE}
+
+
+url <- read_html("https://w2.brreg.no/kunngjoring/kombisok.jsp?datoFra=01.01.2018&datoTil=02.10.2018&id_region=100&id_fylke=19&id_kommune=-+-+-&id_niva1=51&id_niva2=-+-+-&id_bransje1=0")
+
+#Getting the fourth table on the website
+bankruptcy <- html_table(html_nodes(url, "table")[[4]], fill = TRUE)
+
+```
+
+
+
+```{r cleaning, message=FALSE, echo = FALSE}
+
+#Checking lenght of dataframe
+num_rows <- nrow(bankruptcy)
+
+#Cleaning out empty col's and rows
+bankruptcy <- bankruptcy[2:8]  #Cols
+bankruptcy <- slice(bankruptcy, 8:num_rows) #Rows
+bankruptcy <- bankruptcy[-2] #Removing empty col's
+bankruptcy <- bankruptcy[-3] 
+bankruptcy <- bankruptcy[-4]
+
+#Naming col's
+colnames(bankruptcy)[1:4] <- c("company","company_num", "date", "activity") 
+
+#Removing blankspace and converting type for company_num
+bankruptcy$company_num <- str_replace_all(string= bankruptcy$company_num, pattern=" ", repl="")
+bankruptcy$company_num <- as.numeric(bankruptcy$company_num)
+
+#Converting type for date
+bankruptcy$date <- as.Date(bankruptcy$date, "%d.%m.%Y")
+
+
+#Removing persons
+bankruptcy <- bankruptcy %>%
+  filter( nchar(company_num) > 6)
+
+```
+
+
+
+```{r graphs, message=FALSE, echo = FALSE, fig.width= 10}
+
+ggplot() +
+  geom_bar(data = bankruptcy, aes ( activity)) +
+  labs(
+        title = "Bankruptcy related activities between the start of 2018 and 02.10.2018",
+        x = "Activity",
+        y = "Count") 
+
+
+```
+
+
+
+

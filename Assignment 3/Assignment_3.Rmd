@@ -44,6 +44,10 @@ if(combined$region == "Hele") {
 }
 
 
+if(combined$statistikkvariabel == "Kapasitetsutnytting av senger (prosent)") {
+  combined$verdi/10
+  
+}
 
 
 ```
@@ -89,7 +93,7 @@ cor.test(kapasitet_rom$verdi, pris_rom$verdi,
 
 
 national_mean <- combined %>%
-  filter(regionskode == 0)
+  group_by(combined,regionskode) %>%
   mean(national$verdi)
   
   
