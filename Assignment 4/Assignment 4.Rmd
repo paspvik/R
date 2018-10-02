@@ -32,7 +32,7 @@ bankruptcy <- html_table(html_nodes(url, "table")[[4]], fill = TRUE)
 
 ```{r cleaning, message=FALSE, echo = FALSE}
 
-#Checking lenght of dataframe
+#Checking lenght of col
 num_rows <- nrow(bankruptcy)
 
 #Cleaning out empty col's and rows
@@ -53,7 +53,7 @@ bankruptcy$company_num <- as.numeric(bankruptcy$company_num)
 bankruptcy$date <- as.Date(bankruptcy$date, "%d.%m.%Y")
 
 
-#Removing persons
+#Removing persons and leaving only companies
 bankruptcy <- bankruptcy %>%
   filter( nchar(company_num) > 6)
 
@@ -69,6 +69,8 @@ ggplot() +
         title = "Bankruptcy related activities between the start of 2018 and 02.10.2018",
         x = "Activity",
         y = "Count") 
+
+
 
 
 ```
