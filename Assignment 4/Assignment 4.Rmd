@@ -32,7 +32,7 @@ bankruptcy <- html_table(html_nodes(url, "table")[[4]], fill = TRUE)
 
 ```{r cleaning, message=FALSE, echo = FALSE}
 
-#Checking lenght of col
+#Checking lenght of row
 num_rows <- nrow(bankruptcy)
 
 #Cleaning out empty col's and rows
