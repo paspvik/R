@@ -1,0 +1,90 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r init}
+
+library(readr)
+library(ggplot2)
+library(plyr)
+library(dplyr)
+
+
+Nat2017 <-
+  read_fwf("Nat2017PublicUS.c20180516.r20180808.txt",
+           
+        fwf_positions(
+                    start = c(13,475,504),
+                    end = c(14,475,507),
+        
+        col_names = c("birth_month","sex", "birth_weight")
+              
+            )
+           )
+
+  
+```
+
+
+
+```{r calculations}
+
+#Counting the frequency of male and females
+natFreq <-  count(Nat2017$sex)
+
+#Removing outliers for birth weight
+
+Nat2017 <- filter(Nat2017, birth_weight < 4000 & birth_weight > 2000 )
+
+
+#Typecasts the strings to numerics
+Nat2017$birth_weight <- as.numeric(Nat2017$birth_weight)
+Nat2017$birth_month <- as.numeric(Nat2017$birth_month)
+
+
+#Calculates the proportion of boys to girls
+natProp <- natFreq$freq[2] / natFreq$freq[1]
+
+#Calculates the mean birth weight of the children in grams
+meanNat <- mean(Nat2017$birth_weight)
+
+#Calculates the average birthweight by month
+avg_month <- aggregate(birth_weight ~ birth_month, Nat2017, mean) 
+
+
+```
+
+
+```{r graph}
+
+#Creating densityplot for of birthweight of males and females
+ggplot(Nat2017, aes(x=birth_weight)) +
+  geom_density(color="darkblue", fill="lightblue") +
+  facet_grid(sex ~ .) +
+  theme_classic() +
+  labs(
+        title = "Density plot of female and male birthweight",
+        x = "Birth Weight",
+        y = "Density") 
+
+
+#Creating line plot of average birth weight by month
+ggplot(avg_month, aes(x=birth_weight, y = birth_month)) +
+  geom_line(color = "red") +
+  theme_classic() +
+  labs(
+  title = "Average birth weight by month",
+        x = "Birth Weight",
+        y = "Month") 
+
+
+
+```
+
+
