@@ -87,4 +87,10 @@ ggplot(avg_month, aes(x=birth_weight, y = birth_month)) +
 
 ```
 
+The proportion of boys to girls is 1.05.
 
+Average birth weight is 3200 grams.
+
+The male birth weight do have an slight increase on the heavier parts of the density plot, compared to the female plot.
+
+The average birth weight doesn't significally vary over the months.
